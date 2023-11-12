@@ -13,12 +13,13 @@ export const executer = async (interaction: ChatInputCommandInteraction) => {
     })
   }
 
+  console.log(interaction.user.id, app.creatingEmbeds.first()?.host.id)
+
   const creatingEmbed = app.creatingEmbeds.find(embed => embed.host.id === interaction.user.id)
 
   if (!creatingEmbed) return void interaction.reply({
     content: `Você não tem uma embed em criação.`
   })
-
   app.creatingEmbeds.delete(creatingEmbed.message.id)
 
   return void interaction.reply('Cancelado.')

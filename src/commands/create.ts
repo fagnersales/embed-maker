@@ -14,7 +14,7 @@ export const executer = async (interaction: ChatInputCommandInteraction) => {
     })
   }
 
-  console.log(interaction.user)
+  console.log(interaction.user.id, app.creatingEmbeds.first()?.host.id)
 
   const creatingEmbed = app.creatingEmbeds.find(embed => embed.host.id === interaction.user.id)
 
