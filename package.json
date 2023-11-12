@@ -1,0 +1,26 @@
+{
+  "name": "embed-maker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsup src/",
+    "start": "pnpm build && node dist/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.9.0",
+    "tsup": "^7.2.0",
+    "tsx": "^4.1.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "discord.js": "^14.13.0",
+    "dotenv": "^16.3.1",
+    "firebase": "^10.6.0",
+    "zod": "^3.22.4"
+  }
+}
