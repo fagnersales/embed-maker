@@ -16,7 +16,7 @@ export const executer = async (interaction: ChatInputCommandInteraction) => {
   const creatingEmbed = app.creatingEmbeds.find(embed => embed.host.id === interaction.user.id)
 
   if (!creatingEmbed) return void interaction.reply({
-    content: `Você precisa começar a criar uma embed. Utilize \`/criar\` antes.`
+    content: `Você não tem uma embed em criação.`
   })
 
   app.creatingEmbeds.delete(creatingEmbed.message.id)
