@@ -14,6 +14,8 @@ export const executer = async (interaction: ChatInputCommandInteraction) => {
     })
   }
 
+  console.log(interaction.user)
+
   const creatingEmbed = app.creatingEmbeds.find(embed => embed.host.id === interaction.user.id)
 
   if (creatingEmbed) return void interaction.reply({
@@ -27,6 +29,8 @@ export const executer = async (interaction: ChatInputCommandInteraction) => {
     fetchReply: true,
     embeds: [builder]
   })
+
+  console.log(interaction.user)
 
   app.creatingEmbeds.set(message.id, new CreatingEmbed({
     message,
