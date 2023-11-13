@@ -4,6 +4,8 @@ import { collection, deleteDoc, doc, getDocs, getFirestore, query, setDoc, where
 type TypeOrNull<T> = T | null
 
 export type EmbedData = {
+  content: TypeOrNull<string>
+
   title: TypeOrNull<string>
   description: TypeOrNull<string>
   image: TypeOrNull<string>

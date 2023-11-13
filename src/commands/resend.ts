@@ -22,6 +22,7 @@ export const executer = async (interaction: ChatInputCommandInteraction) => {
 
   const message = await interaction.reply({
     fetchReply: true,
+    content: creatingEmbed.content ?? undefined,
     embeds: [creatingEmbed.builder]
   })
 
@@ -29,6 +30,7 @@ export const executer = async (interaction: ChatInputCommandInteraction) => {
   app.creatingEmbeds.set(message.id, new CreatingEmbed({
     host: interaction.user,
     message,
+    content: creatingEmbed.content,
     builder: creatingEmbed.builder
   }))
 }

@@ -4,14 +4,17 @@ import { Message, User, EmbedBuilder } from 'discord.js'
 export class CreatingEmbed {
   public message: Message
   public host: User
+  public content: string | null
   public builder: EmbedBuilder
   public collecting: boolean = false
+  public lastTextMessage: Message | null = null
   public lastDescriptionMessage: Message | null = null
   public empty: boolean = true
 
-  public constructor(props: { message: Message, host: User, builder?: EmbedBuilder }) {
+  public constructor(props: { message: Message, host: User, content?: string | null, builder?: EmbedBuilder }) {
     this.message = props.message
     this.host = props.host
+    this.content = props.content ?? null
     this.builder = props.builder || this.useEmptyEmbed()
   }
 
@@ -49,6 +52,8 @@ export class CreatingEmbed {
     const data = this.builder.data
 
     return {
+      content: this.content,
+
       author: !data.author ? null : {
         name: data.author.name,
         iconURL: fieldOrNull(data.author.icon_url),
@@ -88,6 +93,6 @@ export class CreatingEmbed {
       if (this.isEmpty()) this.builder = this.useEmptyEmbed()
     }
 
-    await this.message.edit({ embeds: [this.builder] })
+    await this.message.edit({ content: this.content, embeds: [this.builder] })
   }
 }

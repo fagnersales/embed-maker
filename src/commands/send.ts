@@ -53,7 +53,8 @@ export const executer = async (interaction: ChatInputCommandInteraction) => {
   const embed = CreatingEmbed.embedFromEmbedData(userEmbed.data)
 
   await interaction.channel.send({
-    embeds: [embed]
+    embeds: [embed],
+    content: userEmbed.data.content ?? undefined
   })
 
   await interaction.editReply('Embed enviada com sucesso!')
