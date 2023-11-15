@@ -36,9 +36,9 @@ export const executer = async (interaction: ChatInputCommandInteraction) => {
 
     const userEmbeds = await embedsRepository.getAll(interaction.user.id)
 
-    if (userEmbeds.some(userEmbed => userEmbed.name.toLowerCase() === name.toLowerCase())) {
-      return void interaction.editReply('Este nome já está sendo utilizado.')
-    }
+    const usingUserEmbed = userEmbeds.find(userEmbed => userEmbed.name.toLowerCase() === name.toLowerCase())
+
+    if (usingUserEmbed) await embedsRepository.delete(usingUserEmbed.id)
 
     await embedsRepository.add({
       data: creatingEmbed.toJSON(),
