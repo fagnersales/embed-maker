@@ -8,7 +8,7 @@ export const slash = new SlashCommandBuilder()
   .addStringOption(builder => builder
     .setName('name')
     .setDescription('Nome da Embed')
-    .setRequired(true)
+    .setRequired(false)
   )
 
 export const executer = async (interaction: ChatInputCommandInteraction) => {
@@ -27,27 +27,36 @@ export const executer = async (interaction: ChatInputCommandInteraction) => {
 
   if (creatingEmbed.empty) return void interaction.reply('A embed está vazia.')
 
-  const name = interaction.options.getString('name', true)
+  const name = interaction.options.getString('name', false)
 
-  await interaction.deferReply()
+  if (name) {
+    await interaction.deferReply()
 
-  const embedsRepository = new EmbedsRepository()
+    const embedsRepository = new EmbedsRepository()
 
-  const userEmbeds = await embedsRepository.getAll(interaction.user.id)
+    const userEmbeds = await embedsRepository.getAll(interaction.user.id)
 
-  if (userEmbeds.some(userEmbed => userEmbed.name.toLowerCase() === name.toLowerCase())) {
-    return void interaction.editReply('Este nome já está sendo utilizado.')
+    if (userEmbeds.some(userEmbed => userEmbed.name.toLowerCase() === name.toLowerCase())) {
+      return void interaction.editReply('Este nome já está sendo utilizado.')
+    }
+
+    await embedsRepository.add({
+      data: creatingEmbed.toJSON(),
+      ownerId: interaction.user.id,
+      name: name.toLowerCase()
+    })
+
+    app.creatingEmbeds.delete(creatingEmbed.message.id)
+
+    await interaction.editReply(`Embed salva com o nome de \`${name}\`! A embed também será reenviada.`)
+
+    return void interaction.channel.send({ embeds: [creatingEmbed.builder] })
   }
 
-  await embedsRepository.add({
-    data: creatingEmbed.toJSON(),
-    ownerId: interaction.user.id,
-    name: name.toLowerCase()
-  })
   app.creatingEmbeds.delete(creatingEmbed.message.id)
 
-  await interaction.editReply(`Embed salva com o nome de \`${name}\`! A embed também será reenviada.`)
-
-  await interaction.channel.send({ embeds: [creatingEmbed.builder] })
-
+  return void interaction.reply({
+    embeds: [creatingEmbed.builder],
+    content: creatingEmbed.content ?? undefined
+  })
 }
