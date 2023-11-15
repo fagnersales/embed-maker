@@ -55,7 +55,9 @@ export const executer = async (interaction: ChatInputCommandInteraction) => {
 
   app.creatingEmbeds.delete(creatingEmbed.message.id)
 
-  return void interaction.reply({
+  await interaction.reply('Embed finalizada com sucesso!')
+
+  return void interaction.channel.send({
     embeds: [creatingEmbed.builder],
     content: creatingEmbed.content ?? undefined
   })
